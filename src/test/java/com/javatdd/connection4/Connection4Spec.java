@@ -65,7 +65,19 @@ public class Connection4Spec {
         tested.putDiscInColumn(column);
     }
 
+    @Test
+    public void whenFirstPlayerPlaysThenDiscColorIsRed(){
+        assertThat(tested.getCurrentPlayer(), is("C"));
+    }
 
+    @Test
+    public void whenSecondPlayerPlaysThenDiscColorIsGreen(){
+        int column = 1;
+        tested.putDiscInColumn(column);
+        assertThat(tested.getCurrentPlayer(), is("Z"));
+    }
+
+    
 
 
 }

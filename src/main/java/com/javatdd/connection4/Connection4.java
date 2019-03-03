@@ -8,6 +8,9 @@ public class Connection4 {
     private static int ROWS = 6;
     private static int COLUMNS = 7;
     private static final String PUSTE = " ";
+    private static final String CZER = "C";
+    private static final String ZIEL = "Z";
+    private String currentPlayer = CZER;
 
     private String[][] board = new String[ROWS][COLUMNS];
 
@@ -15,6 +18,16 @@ public class Connection4 {
         for (String[]row : board){
             Arrays.fill(row, PUSTE);
         }
+    }
+
+    public String getCurrentPlayer(){
+        return currentPlayer;
+    }
+
+    private void switchPlayer(){
+        if(CZER.equals(currentPlayer))
+            currentPlayer = ZIEL;
+        else currentPlayer = CZER;
     }
 
     public int getNumberOfDiscs(){
@@ -30,6 +43,7 @@ public class Connection4 {
         int row = getNumberOfDiscInColumn(column);
         checkPositionTOInsert(row, column);
         board[row][column] = "X";
+        switchPlayer();
         return row;
     }
 
@@ -42,4 +56,5 @@ public class Connection4 {
         if (row == ROWS)
             throw new RuntimeException("Brak miejsca w kolumnie nr " + column);
     }
+
 }
