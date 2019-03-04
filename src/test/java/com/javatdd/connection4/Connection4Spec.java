@@ -36,7 +36,7 @@ public class Connection4Spec {
     public void whenDiscOutsideThenRuntimeException(){
         int column = -1;
         exception.expect(RuntimeException.class);
-        exception.expectMessage("Nieprawidłowa kolumna" + column);
+        exception.expectMessage("Invalid column " + column);
         tested.putDiscInColumn(column);
     }
 
@@ -68,35 +68,47 @@ public class Connection4Spec {
             tested.putDiscInColumn(column);
         }
         exception.expect(RuntimeException.class);
-        exception.expectMessage("Brak miejsca w kolumnie nr " + column);
+        exception.expectMessage("No more room in column " + column);
         tested.putDiscInColumn(column);
     }
 
     @Test
     public void whenFirstPlayerPlaysThenDiscColorIsRed(){
-        assertThat(tested.getCurrentPlayer(), is("C"));
+        assertThat(tested.getCurrentPlayer(), is("R"));
     }
 
     @Test
     public void whenSecondPlayerPlaysThenDiscColorIsGreen(){
         int column = 1;
         tested.putDiscInColumn(column);
-        assertThat(tested.getCurrentPlayer(), is("Z"));
+        assertThat(tested.getCurrentPlayer(), is("G"));
     }
 
     @Test
     public void whenAskedCurrentPlayerTheOutputNotice(){
         tested.getCurrentPlayer();
-        assertThat(output.toString(), containsString("Kolej gracza C"));
+        assertThat(output.toString(), containsString("Player R turn"));
     }
 
     @Test
     public void whenADiscIsIntroducedTheBoardIsPrinted(){
         int column = 1;
         tested.putDiscInColumn(column);
-        assertThat(output.toString(), containsString("| |C| | | | | |"));
+        assertThat(output.toString(), containsString("| |R| | | | | |"));
     }
-    
+
+    @Test
+    public void whenTheGameStartsItIsNotFinished(){
+        assertFalse("The game must not be finished", tested.isFinished());
+    }
+
+    @Test
+    public void whenNoDiscCanBeIntroducedTheGamesIsFinished() {
+        for (int row = 0; row < 6; row++)
+            for (int column = 0; column < 7; column++)
+                tested.putDiscInColumn(column);
+        assertTrue("The game must be finished", tested.isFinished());
+    }
 
 
 

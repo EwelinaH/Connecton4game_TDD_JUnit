@@ -10,10 +10,10 @@ public class Connection4 {
 
     private static int ROWS = 6;
     private static int COLUMNS = 7;
-    private static final String PUSTE = " ";
-    private static final String CZER = "C";
-    private static final String ZIEL = "Z";
-    private String currentPlayer = CZER;
+    private static final String EMPTY = " ";
+    private static final String RED = "R";
+    private static final String GREEN = "G";
+    private String currentPlayer = RED;
     private static final String DELIMITER = "|";
     private PrintStream outputChannel;
 
@@ -23,12 +23,12 @@ public class Connection4 {
     public Connection4(PrintStream out){
         outputChannel = out;
         for (String[]row : board){
-            Arrays.fill(row, PUSTE);
+            Arrays.fill(row, EMPTY);
         }
     }
 
     public String getCurrentPlayer(){
-        outputChannel.printf("Kolej gracza %s %n", currentPlayer);
+        outputChannel.printf("Player %s turn %n", currentPlayer);
         return currentPlayer;
     }
 
@@ -41,9 +41,9 @@ public class Connection4 {
     }
 
     private void switchPlayer(){
-        if(CZER.equals(currentPlayer))
-            currentPlayer = ZIEL;
-        else currentPlayer = CZER;
+        if(RED.equals(currentPlayer))
+            currentPlayer = GREEN;
+        else currentPlayer = RED;
     }
 
     public int getNumberOfDiscs(){
@@ -51,7 +51,7 @@ public class Connection4 {
     }
 
     private  int getNumberOfDiscInColumn(int column){
-        return  (int) IntStream.range(0, ROWS).filter(row -> !PUSTE.equals(board[row][column])).count();
+        return  (int) IntStream.range(0, ROWS).filter(row -> !EMPTY.equals(board[row][column])).count();
     }
 
     public int putDiscInColumn(int column){
@@ -66,12 +66,16 @@ public class Connection4 {
 
     private void checkColumn(int column){
         if(column < 0 || column >= COLUMNS)
-        throw new RuntimeException("Nieprawidłowa kolumna" + column);
+        throw new RuntimeException("Invalid column " + column);
     }
 
     private void checkPositionTOInsert(int row, int column){
         if (row == ROWS)
-            throw new RuntimeException("Brak miejsca w kolumnie nr " + column);
+            throw new RuntimeException("No more room in column " + column);
+    }
+
+    public boolean isFinished(){
+        return getNumberOfDiscs() == ROWS * COLUMNS;
     }
 
 }
