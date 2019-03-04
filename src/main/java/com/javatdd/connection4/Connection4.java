@@ -1,7 +1,10 @@
 package com.javatdd.connection4;
 
+import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.StringJoiner;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Connection4 {
 
@@ -11,17 +14,30 @@ public class Connection4 {
     private static final String CZER = "C";
     private static final String ZIEL = "Z";
     private String currentPlayer = CZER;
+    private static final String DELIMITER = "|";
+    private PrintStream outputChannel;
+
 
     private String[][] board = new String[ROWS][COLUMNS];
 
-    public Connection4(){
+    public Connection4(PrintStream out){
+        outputChannel = out;
         for (String[]row : board){
             Arrays.fill(row, PUSTE);
         }
     }
 
     public String getCurrentPlayer(){
+        outputChannel.printf("Kolej gracza %s %n", currentPlayer);
         return currentPlayer;
+    }
+
+    private void printBoard(){
+        for (int row =ROWS -1; row >= 0; row--){
+            StringJoiner stringJoiner = new StringJoiner(DELIMITER, DELIMITER, DELIMITER);
+            Stream.of(board[row]).forEachOrdered(stringJoiner::add);
+            outputChannel.println(stringJoiner.toString());
+        }
     }
 
     private void switchPlayer(){
@@ -42,7 +58,8 @@ public class Connection4 {
         checkColumn(column);
         int row = getNumberOfDiscInColumn(column);
         checkPositionTOInsert(row, column);
-        board[row][column] = "X";
+        board[row][column] = currentPlayer;
+        printBoard();
         switchPlayer();
         return row;
     }

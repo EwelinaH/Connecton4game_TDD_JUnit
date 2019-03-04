@@ -5,19 +5,26 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class Connection4Spec {
 
     private Connection4 tested;
+    private OutputStream output;
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
     @Before
-    public void beforeEachTest(){
-        tested = new Connection4();
+    public void beforeEachTest() {
+        output = new ByteArrayOutputStream();
+        tested = new Connection4(new PrintStream(output));
     }
 
     @Test
@@ -77,7 +84,20 @@ public class Connection4Spec {
         assertThat(tested.getCurrentPlayer(), is("Z"));
     }
 
+    @Test
+    public void whenAskedCurrentPlayerTheOutputNotice(){
+        tested.getCurrentPlayer();
+        assertThat(output.toString(), containsString("Kolej gracza C"));
+    }
+
+    @Test
+    public void whenADiscIsIntroducedTheBoardIsPrinted(){
+        int column = 1;
+        tested.putDiscInColumn(column);
+        assertThat(output.toString(), containsString("| |C| | | | | |"));
+    }
     
+
 
 
 }
