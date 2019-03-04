@@ -9,8 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 public class Connection4Spec {
@@ -110,6 +109,48 @@ public class Connection4Spec {
         assertTrue("The game must be finished", tested.isFinished());
     }
 
+    @Test
+    public void when4VerticalDiscsAreConnectedThenPlayerWins(){
+        for(int row = 0; row < 3; row++){
+            tested.putDiscInColumn(1);
+            tested.putDiscInColumn(2);
+        }
+        assertThat(tested.getWinner(), isEmptyString());
+        tested.putDiscInColumn(1);
+        assertThat(tested.getWinner(), is("R"));
+    }
+
+    @Test
+    public void when4HorizontalDiscsAreConnectedThenPlayerWins(){
+        int column;
+        for (column = 0; column < 3; column++){
+            tested.putDiscInColumn(column);
+            tested.putDiscInColumn(column);
+        }
+        assertThat(tested.getWinner(), isEmptyString());
+        tested.putDiscInColumn(column);
+        assertThat(tested.getWinner(), is("R"));
+    }
+
+
+    @Test
+    public void when4Diagonal1DiscsAreConnectedThenThatPlayerWins(){
+        int[] gameplay = new int[]{1,2,2,3,4,3,3,4,4,5,4};
+        for (int column : gameplay){
+            tested.putDiscInColumn(column);
+        }
+        assertThat(tested.getWinner(), is("R"));
+    }
+
+    @Test
+    public void when4Diagonal2DiscsAreConnectedThenThatPlayerWins(){
+        int[] gameplay = new int[]{3,4,2,3,2,2,1,1,1,1};
+        for (int column : gameplay){
+            tested.putDiscInColumn(column);
+        }
+        assertThat(tested.getWinner(), is("G"));
+
+    }
 
 
 }

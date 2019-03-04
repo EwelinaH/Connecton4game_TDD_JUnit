@@ -2,7 +2,7 @@
 
 A simple game in which two players fills the 6x7 board columns with their own discs.
 Each player has his own color.
-When one color fills all fields vertically, horizontally or diagonally, this player wins.
+When one color fills 3 or more than 3 fields vertically, horizontally or diagonally, this player wins.
 
 **Requirement1**
 The board is composed by 7 horizontal and 6 vertical empty positions
