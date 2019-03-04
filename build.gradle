@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'jacoco'
 }
 
 group 'com.ewelina'
@@ -10,6 +11,24 @@ sourceCompatibility = 1.8
 repositories {
     mavenCentral()
 }
+
+//ext{
+//    jacocoVersion = "0.8.2"
+//}
+
+jacoco {
+    toolVersion = "0.8.2"
+//    reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled true
+        html.enabled true
+    }
+}
+test.finalizedBy jacocoTestReport
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
