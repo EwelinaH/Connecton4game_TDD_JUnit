@@ -1,4 +1,5 @@
-**Connecton4game_TDD_JUnit**
+**Connecton4game_TDD_JUnit**  
+Created using Java, Gradle, JUnit, Hamcrest, JaCoCo, based on TDD.  
 
 A simple game in which two players fills the 6x7 board columns with their own discs.
 Each player has his own color.
